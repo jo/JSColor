@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>jscolor demo using modernizr</title>
+  </head>
+  <script type="text/javascript" src="modernizr.custom.js"></script>
+<body>
+	Click here: <input type="color" value="66ff00">
+
+  <script>
+    Modernizr.load([{
+      // Test if Input Color is supported using Modernizr
+      test: Modernizr.inputtypes.color,
+      // If colors are not supported, load the jscolor.js script
+      nope: 'jscolor.min.js',
+      // initialize jscolor once its loaded,
+      // because the builtin jscolor.install hook is bind to window.load,
+      // which has already happend
+      callback: function(id, testResult) {
+        jscolor.init();
+      }
+    }]);
+  </script>
+</body>
+</html>

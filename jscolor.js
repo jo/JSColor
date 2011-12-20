@@ -14,7 +14,6 @@ var jscolor = {
 
 
 	dir : '', // location of jscolor directory (leave empty to autodetect)
-	bindClass : 'color', // class name
 	binding : true, // automatic binding via <input class="...">
 	preloading : true, // use image preloading?
 
@@ -53,7 +52,7 @@ var jscolor = {
 
 		var e = document.getElementsByTagName('script');
 		for(var i=0; i<e.length; i+=1) {
-			if(e[i].src && /(^|\/)jscolor\.js([?#].*)?$/i.test(e[i].src)) {
+			if(e[i].src && /(^|\/)jscolor(\.min)?\.js([?#].*)?$/i.test(e[i].src)) {
 				var src = new jscolor.URI(e[i].src);
 				var srcAbs = src.toAbsolute(base);
 				srcAbs.path = srcAbs.path.replace(/[^\/]+$/, ''); // remove filename
@@ -67,18 +66,11 @@ var jscolor = {
 
 
 	bind : function() {
-		var matchClass = new RegExp('(^|\\s)('+jscolor.bindClass+')\\s*(\\{[^}]*\\})?', 'i');
 		var e = document.getElementsByTagName('input');
 		for(var i=0; i<e.length; i+=1) {
 			var m;
-			if(!e[i].color && e[i].className && (m = e[i].className.match(matchClass))) {
-				var prop = {};
-				if(m[3]) {
-					try {
-						eval('prop='+m[3]);
-					} catch(eInvalidProp) {}
-				}
-				e[i].color = new jscolor.color(e[i], prop);
+			if(!e[i].color && e[i].hasAttribute('type') && (e[i].getAttribute('type') === 'color')) {
+				e[i].color = new jscolor.color(e[i], {});
 			}
 		}
 	},
